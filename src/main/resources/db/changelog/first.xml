@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="202502162333" author="Anbu">
+        <createTable tableName="apartment">
+            <column name="id" type="serial">
+                <constraints primaryKey="true" primaryKeyName="apartment_id_pk"/>
+            </column>
+            <column name="city" type="varchar(150)">
+                <constraints nullable="false" notNullConstraintName="apartment_city_nN"/>
+            </column>
+            <column name="street" type="varchar(150)">
+                <constraints nullable="false" notNullConstraintName="apartment_street_nN"/>
+            </column>
+            <column name="home" type="varchar(150)">
+                <constraints nullable="false" notNullConstraintName="apartment_home_nN"/>
+            </column>
+            <column name=""countsRooms
+        </createTable>
+    </changeSet>
+
+
+</databaseChangeLog>
