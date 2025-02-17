@@ -23,7 +23,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="room_count">
+            <column name="room_count" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -37,7 +37,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="is_status" type="boolean">
+            <column name="is_active" type="boolean">
                 <constraints nullable="false"/>
             </column>
 
@@ -48,7 +48,7 @@
                         foreignKeyName="advert_apartment_id_fk"/>
             </column>
 
-            <column name="description" type="varchar(200)">
+            <column name="description" type="text">
                 <constraints nullable="false"/>
             </column>
         </createTable>
@@ -79,6 +79,7 @@
             <column name="end_date" type="timestamp">
                 <constraints nullable="false"/>
             </column>
+
             <column name="client_id" type="integer">
                 <constraints nullable="false"
                              referencedTableName="client"
