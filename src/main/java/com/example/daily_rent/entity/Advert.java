@@ -2,12 +2,9 @@ package com.example.daily_rent.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,10 +32,8 @@ public class Advert {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @ManyToOne
-    @JoinColumn(name = "apartment_id", nullable = false,
-            foreignKey = @ForeignKey(name = "advert_apartment_id_fk"))
-    private Apartment apartment;
+    @Column(name = "apartment_id", nullable = false)
+    private Integer apartmentId;
 
     @Column(columnDefinition = "TEXT", nullable = false)
     private String description;

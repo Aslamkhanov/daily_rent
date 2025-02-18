@@ -2,12 +2,9 @@ package com.example.daily_rent.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,15 +33,11 @@ public class Booking {
     @Column(name = "end_date", columnDefinition = "timestamp", nullable = false)
     private LocalDate endDate;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id", nullable = false,
-            foreignKey = @ForeignKey(name = "booking_client_id_fk"))
-    private Client client;
+    @Column(name = "client_id", nullable = false)
+    private Integer clientId;
 
-    @ManyToOne
-    @JoinColumn(name = "advert_id", nullable = false,
-            foreignKey = @ForeignKey(name = "booking_advert_id_fk"))
-    private Advert advert;
+    @Column(name = "advert_id", nullable = false)
+    private Integer advertId;
 
     @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
