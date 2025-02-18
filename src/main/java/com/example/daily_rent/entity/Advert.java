@@ -15,7 +15,6 @@ import lombok.ToString;
 import java.math.BigDecimal;
 
 @Entity
-@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -26,7 +25,7 @@ public class Advert {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Column(name = "is_active", nullable = false)
@@ -35,6 +34,6 @@ public class Advert {
     @Column(name = "apartment_id", nullable = false)
     private Integer apartmentId;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(nullable = false)
     private String description;
 }

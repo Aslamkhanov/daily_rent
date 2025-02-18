@@ -27,7 +27,7 @@ public class Apartment {
     private Integer id;
 
     @Column(nullable = false)
-    private String name;
+    private String city;
 
     @Column(nullable = false)
     private String street;

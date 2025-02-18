@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@ToString
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,10 +26,10 @@ public class Booking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "start_date", columnDefinition = "timestamp", nullable = false)
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "end_date", columnDefinition = "timestamp", nullable = false)
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Column(name = "client_id", nullable = false)
@@ -39,6 +38,6 @@ public class Booking {
     @Column(name = "advert_id", nullable = false)
     private Integer advertId;
 
-    @Column(nullable = false, precision = 10, scale = 2)
+    @Column(nullable = false)
     private BigDecimal price;
 }
