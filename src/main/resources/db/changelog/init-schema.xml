@@ -23,7 +23,7 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="apartment_type" type="varchar(50)">
+            <column name="type" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
