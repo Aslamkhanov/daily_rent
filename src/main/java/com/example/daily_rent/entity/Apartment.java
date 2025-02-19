@@ -26,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Apartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
