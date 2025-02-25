@@ -18,11 +18,9 @@ public class BookingDto {
     private Integer id;
 
     @JsonProperty("date_start")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
     @JsonProperty("date_finish")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     @JsonProperty("client_id")
