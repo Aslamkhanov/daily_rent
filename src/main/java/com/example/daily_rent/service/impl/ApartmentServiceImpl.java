@@ -17,7 +17,7 @@ public class ApartmentServiceImpl implements ApartmentService {
     @Override
     public ApartmentDto save(ApartmentDto dto) {
         Apartment apartment = apartmentMapper.toEntity(dto);
-        Apartment newApartment = apartmentRepository.save(apartment);
-        return apartmentMapper.toDto(newApartment);
+        apartmentRepository.save(apartment);
+        return apartmentMapper.toDto(apartment);
     }
 }

@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -27,7 +26,4 @@ public class CreateBookingDto {
 
     @JsonProperty("advert_id")
     private Integer advertId;
-
-    @JsonProperty("result_price")
-    private BigDecimal price;
 }
