@@ -1,8 +1,8 @@
 package com.example.daily_rent.service;
 
-import com.example.daily_rent.dto.AdvertDto;
-import com.example.daily_rent.dto.AdvertResponseDto;
+import com.example.daily_rent.dto.CreateAdvertDto;
+import com.example.daily_rent.dto.AdvertDtoRs;
 
 public interface AdvertService {
-    AdvertResponseDto save(AdvertDto dto);
+    AdvertDtoRs save(CreateAdvertDto dto);
 }

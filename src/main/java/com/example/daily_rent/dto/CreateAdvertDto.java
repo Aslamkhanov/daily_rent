@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdvertDto {
+public class CreateAdvertDto {
     private Integer id;
 
     private BigDecimal price;

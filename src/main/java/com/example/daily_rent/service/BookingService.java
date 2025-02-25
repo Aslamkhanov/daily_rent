@@ -1,8 +1,8 @@
 package com.example.daily_rent.service;
 
-import com.example.daily_rent.dto.BookingDto;
-import com.example.daily_rent.dto.BookingResponseDto;
+import com.example.daily_rent.dto.CreateBookingDto;
+import com.example.daily_rent.dto.BookingDtoRs;
 
 public interface BookingService {
-    BookingResponseDto save(BookingDto dto);
+    BookingDtoRs save(CreateBookingDto dto);
 }

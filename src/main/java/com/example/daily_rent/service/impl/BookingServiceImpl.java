@@ -1,7 +1,7 @@
 package com.example.daily_rent.service.impl;
 
-import com.example.daily_rent.dto.BookingDto;
-import com.example.daily_rent.dto.BookingResponseDto;
+import com.example.daily_rent.dto.BookingDtoRs;
+import com.example.daily_rent.dto.CreateBookingDto;
 import com.example.daily_rent.entity.Booking;
 import com.example.daily_rent.mapper.BookingMapper;
 import com.example.daily_rent.repository.BookingRepository;
@@ -16,7 +16,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingMapper bookingMapper;
 
     @Override
-    public BookingResponseDto save(BookingDto dto) {
+    public BookingDtoRs save(CreateBookingDto dto) {
         Booking booking = bookingMapper.toEntity(dto);
         return bookingMapper.toDto(bookingRepository.save(booking));
     }

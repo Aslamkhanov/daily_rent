@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class BookingResponseDto {
+public class BookingDtoRs {
     private Integer id;
 
     @JsonProperty("date_start")
@@ -24,9 +24,9 @@ public class BookingResponseDto {
     @JsonProperty("date_finish")
     private LocalDate endDate;
 
-    private Client client;
+    private ClientDto client;
 
-    private Advert advert;
+    private AdvertDtoRs advert;
 
     @JsonProperty("result_price")
     private BigDecimal price;

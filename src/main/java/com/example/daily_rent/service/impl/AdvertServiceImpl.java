@@ -1,7 +1,7 @@
 package com.example.daily_rent.service.impl;
 
-import com.example.daily_rent.dto.AdvertDto;
-import com.example.daily_rent.dto.AdvertResponseDto;
+import com.example.daily_rent.dto.AdvertDtoRs;
+import com.example.daily_rent.dto.CreateAdvertDto;
 import com.example.daily_rent.entity.Advert;
 import com.example.daily_rent.mapper.AdvertMapper;
 import com.example.daily_rent.repository.AdvertRepository;
@@ -16,7 +16,7 @@ public class AdvertServiceImpl implements AdvertService {
     private final AdvertMapper advertMapper;
 
     @Override
-    public AdvertResponseDto save(AdvertDto dto) {
+    public AdvertDtoRs save(CreateAdvertDto dto) {
         Advert advert = advertMapper.toEntity(dto);
         return advertMapper.toDto(advertRepository.save(advert));
     }

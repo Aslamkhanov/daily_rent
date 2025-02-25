@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AdvertResponseDto {
+public class AdvertDtoRs {
     private Integer id;
 
     private BigDecimal price;
@@ -21,7 +21,7 @@ public class AdvertResponseDto {
     @JsonProperty("is_active")
     private Boolean isActive;
 
-    private Apartment apartment;
+    private ApartmentDto apartment;
 
     private String description;
 }

@@ -1,7 +1,7 @@
 package com.example.daily_rent.mapper;
 
-import com.example.daily_rent.dto.BookingDto;
-import com.example.daily_rent.dto.BookingResponseDto;
+import com.example.daily_rent.dto.CreateBookingDto;
+import com.example.daily_rent.dto.BookingDtoRs;
 import com.example.daily_rent.entity.Advert;
 import com.example.daily_rent.entity.Booking;
 import com.example.daily_rent.entity.Client;
@@ -25,9 +25,9 @@ public abstract class BookingMapper {
     @Mapping(target = "advert", source = "advertId", qualifiedByName = "getAdvertById")
     @Mapping(target = "id", source = "dto.id")
     @Mapping(target = "price", ignore = true)
-    public abstract Booking toEntity(BookingDto dto);
+    public abstract Booking toEntity(CreateBookingDto dto);
 
-    public abstract BookingResponseDto toDto(Booking booking);
+    public abstract BookingDtoRs toDto(Booking booking);
 
     @Named("getClientById")
     protected Client getClientById(Integer id) {

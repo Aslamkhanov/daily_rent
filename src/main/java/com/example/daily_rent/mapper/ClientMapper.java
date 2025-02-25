@@ -10,5 +10,6 @@ import org.mapstruct.MappingConstants;
 public interface ClientMapper {
     @Mapping(target = "bookings", ignore = true)
     Client toEntity(ClientDto dto);
+
     ClientDto toDto(Client client);
 }
