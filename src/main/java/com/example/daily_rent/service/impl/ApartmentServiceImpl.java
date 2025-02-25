@@ -1,10 +1,10 @@
-package com.example.daily_rent.service;
+package com.example.daily_rent.service.impl;
 
 import com.example.daily_rent.dto.ApartmentDto;
 import com.example.daily_rent.entity.Apartment;
 import com.example.daily_rent.mapper.ApartmentMapper;
 import com.example.daily_rent.repository.ApartmentRepository;
-import com.example.daily_rent.service.inerfaces.ApartmentService;
+import com.example.daily_rent.service.ApartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

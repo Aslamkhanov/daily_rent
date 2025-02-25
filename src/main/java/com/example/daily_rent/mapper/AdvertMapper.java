@@ -1,19 +1,33 @@
 package com.example.daily_rent.mapper;
 
 import com.example.daily_rent.dto.AdvertDto;
+import com.example.daily_rent.dto.AdvertResponseDto;
 import com.example.daily_rent.entity.Advert;
 import com.example.daily_rent.entity.Apartment;
+import com.example.daily_rent.exception.EntityNotFoundException;
+import com.example.daily_rent.repository.ApartmentRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
-public interface AdvertMapper {
+public abstract class AdvertMapper {
+    @Autowired
+    private ApartmentRepository apartmentRepository;
+
     @Mapping(target = "bookings", ignore = true)
     @Mapping(target = "id", source = "dto.id")
-    @Mapping(target = "apartment", source = "apartment")
-    Advert toEntity(AdvertDto dto, Apartment apartment);
+    @Mapping(target = "apartment", source = "apartmentId", qualifiedByName = "getApartmentById")
+    public abstract Advert toEntity(AdvertDto dto);
 
-    @Mapping(target = "apartmentId", source = "apartment.id")
-    AdvertDto toDto(Advert advert);
+    public abstract AdvertResponseDto toDto(Advert advert);
+
+    @Named("getApartmentById")
+    protected Apartment getApartmentById(Integer id) {
+        return apartmentRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Apartment with id " + id + " not found"));
+    }
 }
