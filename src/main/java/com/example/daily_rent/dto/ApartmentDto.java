@@ -18,9 +18,8 @@ public class ApartmentDto {
 
     private String street;
 
-    @JsonProperty("house")
-    private String home;
+    private String house;
 
     @JsonProperty("apartment_type")
-    private ApartmentType type;
+    private ApartmentType apartmentType;
 }
