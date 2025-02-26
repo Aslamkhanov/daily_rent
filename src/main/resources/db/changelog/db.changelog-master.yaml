@@ -1,3 +1,5 @@
 databaseChangeLog:
   - include:
       file: db/changelog/init-schema.xml
+  - include:
+      file: db/changelog/changes-column.xml

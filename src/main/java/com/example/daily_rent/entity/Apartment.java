@@ -40,11 +40,11 @@ public class Apartment {
     private String street;
 
     @Column(nullable = false)
-    private String home;
+    private String house;
 
-    @Column(nullable = false)
+    @Column(name = "apartment_type", nullable = false)
     @Enumerated(EnumType.STRING)
-    private ApartmentType type;
+    private ApartmentType apartmentType;
 
     @OneToMany(mappedBy = "apartment", fetch = FetchType.EAGER)
     @ToString.Exclude
