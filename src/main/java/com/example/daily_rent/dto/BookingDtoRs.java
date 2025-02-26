@@ -1,7 +1,5 @@
 package com.example.daily_rent.dto;
 
-import com.example.daily_rent.entity.Advert;
-import com.example.daily_rent.entity.Client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
