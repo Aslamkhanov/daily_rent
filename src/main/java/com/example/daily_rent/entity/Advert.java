@@ -40,7 +40,7 @@ public class Advert {
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "apartment_id", nullable = false)
     private Apartment apartment;
 
@@ -48,6 +48,6 @@ public class Advert {
     private String description;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "advert", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "advert")
     private List<Booking> bookings;
 }

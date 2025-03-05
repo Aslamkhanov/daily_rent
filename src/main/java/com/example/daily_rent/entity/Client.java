@@ -37,7 +37,7 @@ public class Client {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client")
     @ToString.Exclude
     private List<Booking> bookings;
 }

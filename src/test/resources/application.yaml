@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/flat_rent?currentSchema=test
+    username: postgres
+    password: MagaR223
+    driver: org.postgresql.Driver

@@ -1,6 +1,7 @@
 package com.example.daily_rent.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,16 +13,23 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CreateAdvertDto {
+@Schema(description = "DTO для создания объявления")
+public class AdvertCreateDto {
+
+    @Schema(description = "ID объявления")
     private Integer id;
 
+    @Schema(description = "Цена")
     private BigDecimal price;
 
+    @Schema(description = "Активно ли объявление")
     @JsonProperty("is_active")
     private Boolean isActive;
 
+    @Schema(description = "ID квартиры")
     @JsonProperty("apartment_id")
     private Integer apartmentId;
 
+    @Schema(description = "Описание")
     private String description;
 }
