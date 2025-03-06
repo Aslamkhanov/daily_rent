@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NO_CONTENT;
+import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @AutoConfigureMockMvc
@@ -108,7 +108,7 @@ public class ClientControllerTest {
                 .delete("/{id}", createdClient.getId())
                 .then()
                 .spec(responseSpecification)
-                .statusCode(NO_CONTENT.value());
+                .statusCode(OK.value());
 
         assertEquals(0, clientRepository.findAll().size());
     }
@@ -161,7 +161,7 @@ public class ClientControllerTest {
                 .delete("/{id}", createdClient.getId())
                 .then()
                 .spec(responseSpecification)
-                .statusCode(NO_CONTENT.value());
+                .statusCode(OK.value());
 
         assertFalse(clientRepository.existsById(createdClient.getId()));
         assertEquals(0, bookingRepository.count());

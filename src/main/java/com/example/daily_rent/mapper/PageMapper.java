@@ -5,13 +5,10 @@ import com.example.daily_rent.dto.BookingDtoRs;
 import com.example.daily_rent.dto.PageDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring", uses = {AdvertMapper.class, BookingMapper.class})
 public interface PageMapper {
-
-    PageMapper INSTANCE = Mappers.getMapper(PageMapper.class);
 
     @Mapping(source = "content", target = "content")
     @Mapping(source = "number", target = "number")

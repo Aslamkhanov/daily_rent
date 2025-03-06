@@ -40,11 +40,11 @@ public class ClientController {
     @Operation(summary = "Удаление клиента",
             description = "Удаляет клиента по его ID",
             responses = {
-                    @ApiResponse(responseCode = "204", description = "Клиент успешно удален"),
+                    @ApiResponse(responseCode = "200", description = "Клиент успешно удален"),
                     @ApiResponse(responseCode = "404", description = "Клиент не найден")
             })
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public void deleteClient(@PathVariable Integer id) {
         clientService.delete(id);
     }

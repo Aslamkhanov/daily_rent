@@ -24,13 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
-    private static final int PAGE_SIZE = 20;
-    private static final int PAGE_SIZE_ZERO = 0;
     private final BookingRepository bookingRepository;
     private final BookingMapper bookingMapper;
     private final PageMapper pageMapper;
@@ -41,7 +38,7 @@ public class BookingServiceImpl implements BookingService {
     @Transactional(readOnly = true)
     public PageDto<BookingDtoRs> bookClientByEmail(String email, Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),
-                pageable.getPageSize() > PAGE_SIZE_ZERO ? pageable.getPageSize() : PAGE_SIZE);
+                pageable.getPageSize() > 0 ? pageable.getPageSize() : 20);
         Page<Booking> bookings = bookingRepository.findAllByClient_Email(email, pageRequest);
         Page<BookingDtoRs> bookingDtoRs = bookings.map(bookingMapper::toDto);
         return pageMapper.toPageBooking(bookingDtoRs);
@@ -68,12 +65,7 @@ public class BookingServiceImpl implements BookingService {
     }
 
     private boolean isApartmentBooked(Integer advertId, LocalDate startDate, LocalDate endDate) {
-        List<Booking> existingBookings = bookingRepository.findByAdvertId(advertId);
-
-        return existingBookings.stream()
-                .anyMatch(existingBooking ->
-                        startDate.isBefore(existingBooking.getEndDate()) &&
-                                endDate.isAfter(existingBooking.getStartDate()));
+        return bookingRepository.existsOverLappingBooking(advertId, startDate, endDate);
     }
 
     private BigDecimal calculatePrice(BigDecimal pricePerNight, LocalDate startDate, LocalDate endDate) {

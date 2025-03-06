@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class ExceptionApiHandler {
     @ExceptionHandler(BookingConflictException.class)
     public ResponseEntity<String> handleBookingConflictException(BookingConflictException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
     }
 }

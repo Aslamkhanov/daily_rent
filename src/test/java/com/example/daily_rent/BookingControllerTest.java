@@ -199,7 +199,7 @@ public class BookingControllerTest {
                 .body(overlappingBookingRequest)
                 .post()
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CONFLICT.value());
     }
 
     @Test
@@ -243,7 +243,7 @@ public class BookingControllerTest {
                 .body(overlappingBookingRequest)
                 .post()
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CONFLICT.value());
     }
 
     @Test
@@ -287,6 +287,6 @@ public class BookingControllerTest {
                 .body(overlappingBookingRequest)
                 .post()
                 .then()
-                .statusCode(HttpStatus.BAD_REQUEST.value());
+                .statusCode(HttpStatus.CONFLICT.value());
     }
 }

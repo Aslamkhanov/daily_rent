@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class AdvertServiceImpl implements AdvertService {
-    private static final int PAGE_SIZE = 10;
-    private static final int PAGE_SIZE_ZERO = 0;
     private final AdvertRepository advertRepository;
     private final AdvertMapper advertMapper;
     private final PageMapper pageMapper;
@@ -36,7 +34,7 @@ public class AdvertServiceImpl implements AdvertService {
     @Transactional(readOnly = true)
     public PageDto<AdvertDtoRs> getAdvertsByCity(String city, Pageable pageable) {
         PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(),
-                pageable.getPageSize() > PAGE_SIZE_ZERO ? pageable.getPageSize() : PAGE_SIZE,
+                pageable.getPageSize() > 0 ? pageable.getPageSize() : 10,
                 Sort.by(Sort.Direction.DESC, "price"));
         Page<Advert> adverts = advertRepository.findByApartment_City(city, pageRequest);
         Page<AdvertDtoRs> advertDtoRsPage = adverts.map(advertMapper::toDto);
