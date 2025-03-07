@@ -7,17 +7,15 @@ import com.example.daily_rent.dto.BookingDtoRs;
 import com.example.daily_rent.dto.ClientDto;
 import com.example.daily_rent.entity.Apartment;
 import com.example.daily_rent.entity.ApartmentType;
-import com.example.daily_rent.entity.Client;
 import com.example.daily_rent.repository.ApartmentRepository;
-import com.example.daily_rent.repository.ClientRepository;
 import com.example.daily_rent.service.AdvertService;
+import com.example.daily_rent.service.ClientService;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,41 +71,57 @@ public class BookingControllerTest {
             .log(LogDetail.ALL)
             .build();
     @Autowired
-    private ClientRepository clientRepository;
-    @Autowired
     private ApartmentRepository apartmentRepository;
     @Autowired
     private AdvertService advertService;
+    @Autowired
+    private ClientService clientService;
 
-    private Client savedClient;
-    private AdvertDtoRs advertDtoRs;
-
-    @BeforeEach
-    public void setUp() {
-        savedClient = clientRepository.save(Client.builder()
+    private ClientDto createClientDto() {
+        return clientService.save(ClientDto.builder()
                 .name(CLIENT_NAME)
                 .email(CLIENT_EMAIL)
                 .build());
+    }
 
-        Apartment savedApartment = apartmentRepository.save(Apartment.builder()
+    private Apartment createApartment() {
+        return apartmentRepository.save(Apartment.builder()
                 .city(CITY)
                 .street(STREET)
                 .house(HOUSE)
                 .apartmentType(APARTMENT_TYPE)
                 .build());
+    }
 
+    private AdvertDtoRs createAdvert() {
+        Apartment apartment = createApartment();
         AdvertCreateDto advertCreateDto = AdvertCreateDto.builder()
                 .price(PRICE)
                 .description(DESCRIPTION)
-                .apartmentId(savedApartment.getId())
+                .apartmentId(apartment.getId())
                 .isActive(true)
                 .build();
-        advertDtoRs = advertService.save(advertCreateDto);
+        return advertService.save(advertCreateDto);
+    }
+
+    private BookingCreateDto bookingCreateDto(AdvertDtoRs advertDtoRs, ClientDto clientDto,
+                                              LocalDate start, LocalDate end) {
+        return BookingCreateDto.builder()
+                .advertId(advertDtoRs.getId())
+                .startDate(start)
+                .endDate(end)
+                .client(ClientDto.builder()
+                        .id(clientDto.getId())
+                        .name(clientDto.getName())
+                        .email(clientDto.getEmail())
+                        .build())
+                .build();
     }
 
     @Test
     @DisplayName("Успешное бронирование, при незаполненности id у клиента. Проверить что создан новый клиент")
     public void createSuccessWithoutClientId() {
+        AdvertDtoRs advertDtoRs = createAdvert();
         BookingCreateDto bookingCreateDto = BookingCreateDto.builder()
                 .advertId(advertDtoRs.getId())
                 .startDate(NEW_START_DATE)
@@ -134,16 +148,10 @@ public class BookingControllerTest {
     @Test
     @DisplayName("Успешное бронирование, при указанном id у клиента")
     public void createSuccessWithClientId() {
-        BookingCreateDto bookingCreateDto = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(NEW_START_DATE)
-                .endDate(NEW_END_DATE)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        AdvertDtoRs advertDtoRs = createAdvert();
+        ClientDto clientDto = createClientDto();
+        BookingCreateDto bookingCreateDto = bookingCreateDto(advertDtoRs, clientDto,
+                NEW_START_DATE, NEW_END_DATE);
 
         BookingDtoRs response = given(requestSpecification)
                 .body(bookingCreateDto)
@@ -161,16 +169,10 @@ public class BookingControllerTest {
     @Test
     @DisplayName("Неуспешное бронирование при существующем бронировании на эти даты (случай 4.2.2)")
     public void bookingFailsIfDatesOverlapFirstSituation() {
-        BookingCreateDto bookingCreateDto = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE)
-                .endDate(END_DATE)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        AdvertDtoRs advertDtoRs = createAdvert();
+        ClientDto clientDto = createClientDto();
+        BookingCreateDto bookingCreateDto = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE, END_DATE);
 
         BookingDtoRs firstBookingResponse = given(requestSpecification)
                 .body(bookingCreateDto)
@@ -184,16 +186,8 @@ public class BookingControllerTest {
         assertNotNull(firstBookingResponse);
         assertNotNull(firstBookingResponse.getId());
 
-        BookingCreateDto overlappingBookingRequest = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE)
-                .endDate(END_DATE)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        BookingCreateDto overlappingBookingRequest = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE, END_DATE);
 
         given(requestSpecification)
                 .body(overlappingBookingRequest)
@@ -205,16 +199,10 @@ public class BookingControllerTest {
     @Test
     @DisplayName("Неуспешное бронирование при существующем бронировании на эти даты (случай 4.2.3)")
     public void bookingFailsIfDatesOverlapCaseSecondSituation() {
-        BookingCreateDto firstBookingRequest = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE_OVERLAP_CASE_1)
-                .endDate(END_DATE_OVERLAP_CASE_1)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        AdvertDtoRs advertDtoRs = createAdvert();
+        ClientDto clientDto = createClientDto();
+        BookingCreateDto firstBookingRequest = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE_OVERLAP_CASE_1, END_DATE_OVERLAP_CASE_1);
 
         BookingDtoRs firstBookingResponse = given(requestSpecification)
                 .body(firstBookingRequest)
@@ -228,16 +216,8 @@ public class BookingControllerTest {
         assertNotNull(firstBookingResponse);
         assertNotNull(firstBookingResponse.getId());
 
-        BookingCreateDto overlappingBookingRequest = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE_OVERLAP_CASE_1)
-                .endDate(END_DATE_OVERLAP_CASE_1)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        BookingCreateDto overlappingBookingRequest = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE_OVERLAP_CASE_1, END_DATE_OVERLAP_CASE_1);
 
         given(requestSpecification)
                 .body(overlappingBookingRequest)
@@ -249,16 +229,10 @@ public class BookingControllerTest {
     @Test
     @DisplayName("Неуспешное бронирование при существующем бронировании на эти даты (случай 4.2.4)")
     public void bookingFailsIfDatesOverlapCaseThirdSituation() {
-        BookingCreateDto firstBookingRequest = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE_OVERLAP_CASE_2)
-                .endDate(END_DATE_OVERLAP_CASE_2)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        AdvertDtoRs advertDtoRs = createAdvert();
+        ClientDto clientDto = createClientDto();
+        BookingCreateDto firstBookingRequest = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE_OVERLAP_CASE_2, END_DATE_OVERLAP_CASE_2);
 
         BookingDtoRs firstBookingResponse = given(requestSpecification)
                 .body(firstBookingRequest)
@@ -272,16 +246,8 @@ public class BookingControllerTest {
         assertNotNull(firstBookingResponse);
         assertNotNull(firstBookingResponse.getId());
 
-        BookingCreateDto overlappingBookingRequest = BookingCreateDto.builder()
-                .advertId(advertDtoRs.getId())
-                .startDate(START_DATE_OVERLAP_CASE_2)
-                .endDate(END_DATE_OVERLAP_CASE_2)
-                .client(ClientDto.builder()
-                        .id(savedClient.getId())
-                        .name(savedClient.getName())
-                        .email(savedClient.getEmail())
-                        .build())
-                .build();
+        BookingCreateDto overlappingBookingRequest = bookingCreateDto(advertDtoRs, clientDto,
+                START_DATE_OVERLAP_CASE_2, END_DATE_OVERLAP_CASE_2);
 
         given(requestSpecification)
                 .body(overlappingBookingRequest)
