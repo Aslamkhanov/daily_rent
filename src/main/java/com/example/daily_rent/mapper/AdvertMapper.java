@@ -1,7 +1,7 @@
 package com.example.daily_rent.mapper;
 
+import com.example.daily_rent.dto.AdvertCreateDto;
 import com.example.daily_rent.dto.AdvertDtoRs;
-import com.example.daily_rent.dto.CreateAdvertDto;
 import com.example.daily_rent.entity.Advert;
 import com.example.daily_rent.entity.Apartment;
 import com.example.daily_rent.exception.EntityNotFoundException;
@@ -19,7 +19,7 @@ public abstract class AdvertMapper {
 
     @Mapping(target = "bookings", ignore = true)
     @Mapping(target = "apartment", source = "apartmentId", qualifiedByName = "getApartmentById")
-    public abstract Advert toEntity(CreateAdvertDto dto);
+    public abstract Advert toEntity(AdvertCreateDto dto);
 
     public abstract AdvertDtoRs toDto(Advert advert);
 

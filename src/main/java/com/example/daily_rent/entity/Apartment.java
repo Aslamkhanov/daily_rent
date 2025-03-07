@@ -46,7 +46,7 @@ public class Apartment {
     @Enumerated(EnumType.STRING)
     private ApartmentType apartmentType;
 
-    @OneToMany(mappedBy = "apartment", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "apartment")
     @ToString.Exclude
     private List<Advert> adverts;
 }
